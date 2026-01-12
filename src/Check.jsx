@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { 
   Heart, 
   Stethoscope, 
@@ -16,8 +19,10 @@ import {
   Menu,
   X,
   Award,
-  Users
+  Users,
+  Loader2
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 // --- Vanilla CSS for non-Tailwind fallbacks and Animations ---
 const styles = `
@@ -214,73 +219,133 @@ const Check = () => {
     </section>
   );
 
+const navigate = useNavigate();
+
+  // Form States
+  const [loading, setLoading] = useState(false);
+const nameRef = useRef();
+const phoneRef = useRef();
+const deptRef = useRef();
+const issueRef = useRef();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
+  const handleSubmit1 = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // 2. Extract values using .current.value
+    const userData = { 
+      firstName: nameRef.current.value, 
+      phoneNumber: phoneRef.current.value, 
+      department: deptRef.current.value, 
+      issue: issueRef.current.value 
+    };
+
+    // console.log("Sending to backend:", userData); 
+
+    axios.post("http://localhost:3700/patient/appointment", userData)
+      .then((res) => {
+        toast.success("Appointment Booked");
+        setLoading(false);
+        
+       
+      })
+      .catch((err) => {
+        console.error("Backend Error:", err);
+        setLoading(false);
+         toast.error("Internal Error!");
+      });
+  };
+
   const AppointmentView = () => (
-    <div className="bg-stone-100 py-16 px-6 min-h-screen font-sans slide-up">
+    <div className="bg-stone-100 py-16 px-6 min-h-screen font-sans">
       <div className="max-w-4xl mx-auto bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
         <div className="bg-[#064E3B] md:w-1/3 p-10 text-stone-50 flex flex-col justify-between">
           <div>
-            <h2 className="text-3xl font-serif font-bold mb-4">Visit Us</h2>
-            <p className="text-emerald-100/70 text-sm mb-8">Professional coordination for your health journey starts here.</p>
+            <h2 className="text-3xl font-serif font-bold mb-4">Appointment</h2>
             <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <div className="bg-emerald-800/50 p-2 rounded-lg"><Phone size={18}/></div>
                 <span className="text-sm font-medium">+234 9072606277</span>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="bg-emerald-800/50 p-2 rounded-lg"><Clock size={18}/></div>
-                <span className="text-sm font-medium">Open 24/7</span>
-              </div>
             </div>
           </div>
           <div className="mt-12 text-xs flex items-center text-emerald-400">
-            <ShieldCheck size={16} className="mr-2"/> MainSpring Compliant Secure Form
+            <ShieldCheck size={16} className="mr-2"/> MainSpring Secure
           </div>
         </div>
 
         <div className="p-10 md:w-2/3">
-          {submitted ? (
-            <div className="text-center py-20 fade-in">
-              <div className="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                <ShieldCheck size={40} />
+          <form  className="space-y-6"onSubmit={handleSubmit1}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-[10px] font-bold uppercase text-stone-400 mb-2 block">Patient Name</label>
+                <input 
+                  required 
+                  type="text" 
+                 
+                  placeholder="Full Name" 
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-900/10" 
+                  ref={nameRef}
+                />
               </div>
-              <h2 className="text-2xl font-bold text-[#064E3B]">Registration Confirmed</h2>
-              <p className="text-stone-500 mt-2 mb-8">Our concierge will contact you shortly.</p>
-              <button onClick={() => { setPage('home'); setSubmitted(false); }} className="text-[#064E3B] font-bold border-b-2 border-[#064E3B] pb-1">Back to Overview</button>
+              <div>
+                <label className="text-[10px] font-bold uppercase text-stone-400 mb-2 block">Phone Number</label>
+                <input 
+                  required 
+                  type="text" 
+                
+                  placeholder="080..." 
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-900/10" 
+              
+                   ref={phoneRef}
+                />
+              </div>
             </div>
-          ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2 block">Patient Name</label>
-                  <input required type="text" placeholder="Full Name" className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-900/10 outline-none" />
-                </div>
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2 block">Email Address</label>
-                  <input required type="email" placeholder="email@domain.com" className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-900/10 outline-none" />
-                </div>
-              </div>
-              <div>
-                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2 block">Department</label>
-                <select className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 outline-none">
-                  <option>Cardiovascular Surgery</option>
-                  <option>Neuroscience</option>
-                  <option>Oncology</option>
-                  <option>Modern Pediatrics</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2 block">Message</label>
-                <textarea rows="3" placeholder="Symptoms..." className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 outline-none resize-none"></textarea>
-              </div>
-              <button type="submit" className="w-full bg-[#064E3B] text-white py-4 rounded-xl font-bold hover:bg-[#0d6d53] shadow-lg transition-all active:scale-[0.98]">
-                Request Scheduled Visit
-              </button>
-            </form>
-          )}
+            <div>
+              <label className="text-[10px] font-bold uppercase text-stone-400 mb-2 block">Department</label>
+              <select 
+                required 
+                // value={department} // LIKING VALUE
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 outline-none" 
+               ref={deptRef}
+              >
+                <option value="Others">Others</option>
+                <option value="Cardiovascular Surgery">Cardiovascular Surgery</option>
+                <option value="Neuroscience">Neuroscience</option>
+                <option value="Oncology">Oncology</option>
+                <option value="Modern Pediatrics">Modern Pediatrics</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-[10px] font-bold uppercase text-stone-400 mb-2 block">Message</label>
+              <textarea 
+                required 
+                rows="3" 
+                // value={issue} // LIKING VALUE
+                placeholder="Symptoms..." 
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 outline-none resize-none" 
+                 ref={issueRef}
+              ></textarea>
+            </div>
+            <button 
+              type="submit" 
+              disabled={loading} 
+              className={`w-full bg-[#064E3B] text-white py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0d6d53] shadow-lg active:scale-[0.98]'}`}
+            >
+              {loading && <Loader2 className="animate-spin" size={20} />}
+              {loading ? "Processing..." : "Request Scheduled Visit"}
+            </button>
+          </form>
         </div>
       </div>
     </div>
   );
+
+ 
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -383,6 +448,7 @@ const Check = () => {
           &copy; 2026 Mainspring Hospital Systems. Precision in Practice.
         </div>
       </footer>
+        <ToastContainer />
     </div>
   );
 };

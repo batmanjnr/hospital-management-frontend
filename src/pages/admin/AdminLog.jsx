@@ -17,7 +17,7 @@ const AdminLog = () => {
       .then((res) => {
         console.log("response", res.data);
         toast.success("Login Successful");
-        setTimeout(() => navigate("/doctordash"), 1300);
+        setTimeout(() => navigate("/admindash"), 1300);
       })
       .catch((err) => {
         console.log("error", err.response ? err.response : err);
