@@ -16,7 +16,7 @@ const DoctorSignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const userData = { name,  email, password  };
-    axios.post('http://localhost:3700/doctor/reg', userData)
+    axios.post('https://hospital-management-backend-r8f0.onrender.com/doctor/reg', userData)
     .then((res)=>{
          console.log('response', res.data);
          alert('signed up')

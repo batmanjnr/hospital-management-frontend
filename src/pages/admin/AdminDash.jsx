@@ -12,7 +12,7 @@ const AdminDash = () => {
    
      useEffect(() => {
        // Fetch data when the component mounts
-       axios.get('http://localhost:3700/admin/getUsers')
+       axios.get('https://hospital-management-backend-r8f0.onrender.com/admin/getUsers')
          .then((response) => {
            setDoctors(response.data); // Update state with the actual data
            setLoading(false);
@@ -24,7 +24,7 @@ const AdminDash = () => {
      }, []); 
       useEffect(() => {
        // Fetch data when the component mounts
-       axios.get('http://localhost:3700/admin/getPatient')
+       axios.get('https://hospital-management-backend-r8f0.onrender.com/admin/getPatient')
          .then((response) => {
            setPatients(response.data); // Update state with the actual data
            setLoading(false);

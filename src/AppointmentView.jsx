@@ -20,7 +20,7 @@ const navigate = useNavigate();
 
     const userData = { firstName, phoneNumber, department, issue };
 
-    axios.post("http://localhost:3700/patient/appointment", userData)
+    axios.post("https://hospital-management-backend-r8f0.onrender.com/patient/appointment", userData)
       .then((res) => {
         setTimeout(() => {
           setLoading(false);

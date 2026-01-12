@@ -246,7 +246,7 @@ const issueRef = useRef();
 
     // console.log("Sending to backend:", userData); 
 
-    axios.post("http://localhost:3700/patient/appointment", userData)
+    axios.post("https://hospital-management-backend-r8f0.onrender.com/patient/appointment", userData)
       .then((res) => {
         toast.success("Appointment Booked");
         setLoading(false);

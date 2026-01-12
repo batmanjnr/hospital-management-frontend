@@ -13,7 +13,7 @@ const AdminLog = () => {
     e.preventDefault();
     const userData = { email, password };
     axios
-      .post("http://localhost:3700/admin/signin", userData)
+      .post("https://hospital-management-backend-r8f0.onrender.com/admin/signin", userData)
       .then((res) => {
         console.log("response", res.data);
         toast.success("Login Successful");

@@ -12,7 +12,7 @@ const Login = () => {
     const handleSubmit = (e) => {
     e.preventDefault()
     const userData = {email, password  };
-    axios.post('http://localhost:3700/doctor/signin', userData)
+    axios.post('https://hospital-management-backend-r8f0.onrender.com/doctor/signin', userData)
     .then((res)=>{
       console.log('response', res.data);
       toast.success("Login Successful");

@@ -15,7 +15,7 @@ const Doctors = () => {
 
   useEffect(() => {
     // Fetch data when the component mounts
-    axios.get('http://localhost:3700/doctor/getUsers')
+    axios.get('https://hospital-management-backend-r8f0.onrender.com/doctor/getUsers')
       .then((response) => {
         setPatients(response.data); // Update state with the actual data
         setLoading(false);
