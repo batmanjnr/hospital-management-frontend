@@ -15,12 +15,11 @@ const AdminLog = () => {
     axios
       .post("https://hospital-management-backend-r8f0.onrender.com/admin/signin", userData)
       .then((res) => {
-        console.log("response", res.data);
+       
         toast.success("Login Successful");
         setTimeout(() => navigate("/admindash"), 1300);
       })
       .catch((err) => {
-        console.log("error", err.response ? err.response : err);
         toast.error("Incorrect Password/ Email !");
       });
   };

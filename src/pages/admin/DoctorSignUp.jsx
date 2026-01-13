@@ -18,14 +18,12 @@ const DoctorSignUp = () => {
     const userData = { name,  email, password  };
     axios.post('https://hospital-management-backend-r8f0.onrender.com/doctor/reg', userData)
     .then((res)=>{
-         console.log('response', res.data);
          alert('signed up')
          toast.success("Login Successful");
          setTimeout(() => navigate('/doctorsignup'), 1300);
          
        })
        .catch((err)=>{
-         console.log("error",err.response ? err.response:err);
         toast.error("Incorrect Password/ Email !");
          
        })

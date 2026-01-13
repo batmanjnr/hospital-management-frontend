@@ -248,14 +248,13 @@ const issueRef = useRef();
 
     axios.post("https://hospital-management-backend-r8f0.onrender.com/patient/appointment", userData)
       .then((res) => {
-        toast.success("Appointment Booked  kindly ");
+        toast.success("Appointment Booked  kindly Expect a message on your whatsapp");
         setLoading(false);
-        alert('Expect a message on your whatsapp')
+      
         
        
       })
       .catch((err) => {
-        console.error("Backend Error:", err);
         setLoading(false);
          toast.error("Internal Error!");
       });
