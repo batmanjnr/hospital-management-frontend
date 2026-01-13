@@ -248,8 +248,9 @@ const issueRef = useRef();
 
     axios.post("https://hospital-management-backend-r8f0.onrender.com/patient/appointment", userData)
       .then((res) => {
-        toast.success("Appointment Booked");
+        toast.success("Appointment Booked  kindly ");
         setLoading(false);
+        alert('Expect a message on your whatsapp')
         
        
       })
@@ -293,7 +294,7 @@ const issueRef = useRef();
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold uppercase text-stone-400 mb-2 block">Phone Number</label>
+                <label className="text-[10px] font-bold uppercase text-stone-400 mb-2 block">Whatsapp Number</label>
                 <input 
                   required 
                   type="text" 
